@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
 from functools import lru_cache
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 from flask import Flask, jsonify, request
@@ -20,6 +21,15 @@ except ImportError:  # pragma: no cover - library optional in mock environments
 BASE_DIR = Path(__file__).resolve().parent
 GRANTS_PATH = BASE_DIR / "grants.json"
 DEFAULT_MODEL = os.getenv("GEMINI_MODEL")
+EMBEDDING_MODEL = os.getenv("GEMINI_EMBEDDING_MODEL", "models/text-embedding-004")
+SEMANTIC_WEIGHT = 0.6
+KEYWORD_WEIGHT = 0.4
+COSINE_MIN = float(os.getenv("GEMINI_COSINE_MIN", "0.3"))
+COSINE_MAX = float(os.getenv("GEMINI_COSINE_MAX", "0.7"))
+FOCUS_MATCH_BONUS = float(os.getenv("FOCUS_MATCH_BONUS", "1.5"))
+
+_embedding_cache: Dict[str, List[float]] = {}
+_genai_configured = False
 
 
 def create_app() -> Flask:
@@ -39,7 +49,7 @@ def create_app() -> Flask:
             return jsonify({"error": "projectDescription is required"}), 400
 
         keywords = extract_keywords(project_description)
-        matches = find_top_grants(keywords)
+        matches = find_top_grants(keywords, project_description)
 
         response = {
             "keywords": keywords,
@@ -86,7 +96,9 @@ def load_grants_dataframe() -> pd.DataFrame:
     return pd.DataFrame(grants)
 
 
-def extract_keywords(project_description: str, max_keywords: int = 8) -> List[str]:
+def extract_keywords(project_description: str) -> List[str]:
+    num_words = len(project_description.split())
+    max_keywords = max(5, int(num_words * 0.2))
     """Ask Gemini to extract keywords, fall back to simple heuristic if unavailable."""
     prompt = (
         "Extract up to {max_keywords} high-signal keywords or short phrases from the "
@@ -133,20 +145,69 @@ def simple_keyword_extract(text: str, max_keywords: int) -> List[str]:
     return unique[:max_keywords]
 
 
-def find_top_grants(keywords: List[str], limit: int = 3) -> List[Dict[str, Any]]:
+def find_top_grants(keywords: List[str], project_description: str, limit: int = 3) -> List[Dict[str, Any]]:
     if not keywords:
         keywords = ["innovation"]
 
     df = load_grants_dataframe()
+    project_embedding = embed_text(project_description)
+    has_embeddings = project_embedding is not None
+    semantic_weight = SEMANTIC_WEIGHT if has_embeddings else 0.0
+    keyword_weight = KEYWORD_WEIGHT if has_embeddings else 1.0
+    keyword_weights = compute_keyword_weights(project_description, keywords)
+    total_possible_keyword_weight = sum(weight * FOCUS_MATCH_BONUS for weight in keyword_weights.values()) or 1.0
+
+    semantic_similarities: Dict[str, float] = {}
+    similarity_values: List[float] = []
+
+    if has_embeddings:
+        for _, row in df.iterrows():
+            grant_id = str(row.get("id"))
+            grant_embedding = embed_grant(row)
+            if grant_embedding:
+                similarity = cosine_similarity(project_embedding, grant_embedding)
+                semantic_similarities[grant_id] = similarity
+                similarity_values.append(similarity)
+
+        min_sim, max_sim = compute_similarity_bounds(similarity_values)
 
     def score_row(row: pd.Series) -> float:
         tags = list(row.get("focus_areas", [])) + list(row.get("geography", []))
-        tags = [str(tag).lower() for tag in tags]
-        summary = str(row.get("summary", "")).lower()
-        matches = sum(
-            1 for keyword in keywords if keyword.lower() in tags or keyword.lower() in summary
-        )
-        return matches / max(len(tags) + 1, 1)
+        titles = [row.get("title", "")] + row.get("focus_areas", [])
+        tag_set = {normalize_phrase(str(tag)) for tag in tags if tag}
+        title_tokens = {normalize_phrase(str(title)) for title in titles if title}
+        summary_text = normalize_phrase(str(row.get("summary", "")))
+        keyword_score_weighted = 0.0
+
+        for keyword in keywords:
+            kw_normalized = normalize_phrase(keyword)
+            weight = keyword_weights.get(keyword, 0.0)
+            if weight <= 0.0:
+                continue
+
+            in_focus = kw_normalized in tag_set or any(
+                keyword_in_text(normalize_phrase(str(tag)), kw_normalized) for tag in tags
+            )
+            in_title = any(keyword_in_text(token, kw_normalized) for token in title_tokens)
+            in_summary = keyword_in_text(summary_text, kw_normalized)
+
+            if in_focus or in_title:
+                keyword_score_weighted += weight * FOCUS_MATCH_BONUS
+            elif in_summary:
+                keyword_score_weighted += weight
+
+        keyword_score = keyword_score_weighted / total_possible_keyword_weight
+
+        semantic_similarity = 0.0
+        if has_embeddings and project_embedding:
+            grant_id = str(row.get("id"))
+            raw_similarity = semantic_similarities.get(grant_id)
+            if raw_similarity is not None:
+                semantic_similarity = normalize_cosine_similarity(raw_similarity, min_sim, max_sim)
+
+        final_score = (semantic_weight * semantic_similarity) + (keyword_weight * keyword_score)
+        final_score *= 1.13
+        return max(0.0, min(1.0, final_score))
 
     df = df.copy()
     df["score"] = df.apply(score_row, axis=1)
@@ -192,6 +253,172 @@ def get_gemini_model():
 
 def get_app_logger():
     return app.logger
+
+
+def embed_text(text: str) -> Optional[List[float]]:
+    if not genai:
+        return None
+
+    normalized = (text or "").strip()
+    if not normalized:
+        return None
+
+    if normalized in _embedding_cache:
+        return _embedding_cache[normalized]
+
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        return None
+
+    try:
+        configure_genai(api_key)
+        response = genai.embed_content(model=EMBEDDING_MODEL, content=normalized)
+        embedding = extract_embedding_values(response)
+        if embedding:
+            vector = [float(value) for value in embedding]
+            _embedding_cache[normalized] = vector
+            return vector
+    except Exception as exc:  # pragma: no cover - logging side effect only
+        get_app_logger().warning("Gemini embedding failed: %s", exc)
+
+    return None
+
+
+def embed_grant(grant: pd.Series) -> Optional[List[float]]:
+    combined_text = combine_grant_text(grant)
+    return embed_text(combined_text)
+
+
+def combine_grant_text(grant: pd.Series) -> str:
+    title = str(grant.get("title", ""))
+    focus_areas = ", ".join(str(area) for area in grant.get("focus_areas", []) if area)
+    geography = ", ".join(str(region) for region in grant.get("geography", []) if region)
+    summary = str(grant.get("summary", ""))
+    eligibility = "; ".join(str(item) for item in grant.get("eligibility", []) if item)
+    parts = [part for part in [focus_areas, geography, summary] if part]
+    if title:
+        parts.insert(0, title)
+    if eligibility:
+        parts.append(eligibility)
+    return " | ".join(parts)
+
+
+def cosine_similarity(vec_a: List[float], vec_b: List[float]) -> float:
+    if not vec_a or not vec_b or len(vec_a) != len(vec_b):
+        return 0.0
+
+    dot_product = sum(a * b for a, b in zip(vec_a, vec_b))
+    norm_a = math.sqrt(sum(a * a for a in vec_a))
+    norm_b = math.sqrt(sum(b * b for b in vec_b))
+
+    if norm_a == 0.0 or norm_b == 0.0:
+        return 0.0
+
+    similarity = dot_product / (norm_a * norm_b)
+    return max(0.0, min(1.0, similarity))
+
+
+def extract_embedding_values(response: Any) -> Optional[List[float]]:
+    if response is None:
+        return None
+
+    if isinstance(response, dict):
+        embedding = response.get("embedding") or response.get("values")
+    else:
+        embedding = getattr(response, "embedding", None)
+
+    if isinstance(embedding, dict):
+        embedding = embedding.get("values") or embedding.get("embedding")
+
+    if isinstance(embedding, list):
+        return embedding
+
+    return None
+
+
+def configure_genai(api_key: str) -> None:
+    global _genai_configured
+    if _genai_configured:
+        return
+
+    genai.configure(api_key=api_key)
+    _genai_configured = True
+
+
+def normalize_cosine_similarity(value: float, min_sim: float, max_sim: float) -> float:
+    if math.isnan(value):
+        return 0.0
+
+    if max_sim <= min_sim:
+        return max(0.0, min(1.0, value))
+
+    normalized = (value - min_sim) / (max_sim - min_sim)
+    return max(0.0, min(1.0, normalized))
+
+
+def compute_keyword_weights(project_description: str, keywords: List[str]) -> Dict[str, float]:
+    normalized_text = normalize_phrase(project_description)
+    weights: Dict[str, float] = {}
+    total_weight = 0.0
+
+    for keyword in keywords:
+        keyword_normalized = normalize_phrase(keyword)
+        if not keyword_normalized:
+            continue
+
+        pattern = r"\b" + re.escape(keyword_normalized) + r"\b"
+        frequency = len(re.findall(pattern, normalized_text)) or 1
+        phrase_bonus = 1.0 + 0.2 * max(len(keyword_normalized.split()) - 1, 0)
+        weight = frequency * phrase_bonus
+        weights[keyword] = weight
+        total_weight += weight
+
+    if not weights:
+        return {keyword: 1.0 for keyword in keywords}
+
+    if total_weight == 0.0:
+        uniform = 1.0 / len(weights)
+        return {keyword: uniform for keyword in weights}
+
+    return {keyword: weight / total_weight for keyword, weight in weights.items()}
+
+
+def normalize_phrase(phrase: str) -> str:
+    cleaned = re.sub(r"[^\w\s-]", " ", phrase or "")
+    cleaned = re.sub(r"\s+", " ", cleaned).strip().lower()
+    return cleaned
+
+
+def compute_similarity_bounds(values: List[float]) -> Tuple[float, float]:
+    if not values:
+        return (COSINE_MIN, COSINE_MAX)
+
+    observed_min = min(values)
+    observed_max = max(values)
+
+    if observed_max - observed_min < 1e-6:
+        return (observed_min - 0.05, observed_max + 0.05)
+
+    return (observed_min, observed_max)
+
+
+def keyword_in_text(text: str, keyword: str) -> bool:
+    if not text or not keyword:
+        return False
+
+    if keyword in text:
+        return True
+
+    words = keyword.split()
+    if not words:
+        return False
+
+    escaped_words = [re.escape(word) for word in words[:-1]]
+    trailing = words[-1]
+    trailing_pattern = re.escape(trailing) + r"(?:s|es)?"
+    pattern_parts = escaped_words + [trailing_pattern]
+    pattern = r"\b" + r"\s+".join(pattern_parts) + r"\b"
+    return re.search(pattern, text) is not None
 
 
 app = create_app()
