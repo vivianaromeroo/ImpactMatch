@@ -8,35 +8,22 @@ import type {
   ProposalResponse,
 } from "./types";
 
-const defaultMatches: GrantMatch[] = [
-  {
-    id: "sample-1",
-    title: "Community Climate Action Fund",
-    score: 0.92,
-    summary:
-      "Supports grassroots initiatives reducing greenhouse gas emissions in underserved communities.",
-    eligibilityChecklist: [
-      "501(c)(3) nonprofit or fiscal sponsorship in place",
-      "Serves communities under 100k population",
-      "Project duration under 18 months",
-    ],
-  },
-];
-
 function App() {
   const [projectDescription, setProjectDescription] = useState(
     "Introduce your project idea and the impact you aim to create.",
   );
   const [keywords, setKeywords] = useState<string[]>([]);
-  const [matches, setMatches] = useState<GrantMatch[]>(defaultMatches);
+  const [matches, setMatches] = useState<GrantMatch[]>([]);
   const [proposalDraft, setProposalDraft] = useState<string>("");
   const [isMatching, setIsMatching] = useState(false);
   const [isGeneratingProposal, setIsGeneratingProposal] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleMatch = async () => {
     try {
       setIsMatching(true);
+      setHasSearched(true);
       setError(null);
       setProposalDraft("");
       const payload = { projectDescription };
@@ -168,14 +155,26 @@ function App() {
       </section>
 
       <section className="grid gap-6 md:grid-cols-2">
-        {matches.map((grant) => (
-          <GrantCard
-            key={grant.id}
-            grant={grant}
-            onGenerateProposal={handleGenerateProposal}
-            isLoading={isGeneratingProposal}
-          />
-        ))}
+        {hasSearched ? (
+          matches.length > 0 ? (
+            matches.map((grant) => (
+              <GrantCard
+                key={grant.id}
+                grant={grant}
+                onGenerateProposal={handleGenerateProposal}
+                isLoading={isGeneratingProposal}
+              />
+            ))
+          ) : (
+            <p className="col-span-full rounded-2xl border border-slate-800 bg-slate-900/60 p-6 text-center text-slate-300">
+              Matching your project with grants...
+            </p>
+          )
+        ) : (
+          <p className="col-span-full rounded-2xl border border-dashed border-slate-700 bg-slate-900/40 p-6 text-center text-slate-400">
+            Click &quot;Find my grants&quot; to see tailored opportunities here.
+          </p>
+        )}
       </section>
     </div>
   );
