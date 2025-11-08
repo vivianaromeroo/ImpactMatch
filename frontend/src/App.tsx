@@ -19,12 +19,14 @@ function App() {
   const [isGeneratingProposal, setIsGeneratingProposal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
+  const [selectedGrantId, setSelectedGrantId] = useState<string | null>(null);
 
   const handleMatch = async () => {
     try {
       setIsMatching(true);
       setHasSearched(true);
       setError(null);
+      setSelectedGrantId(null);
       setProposalDraft("");
       const payload = { projectDescription };
       const response: MatchResponse = await matchGrants(payload);
@@ -40,6 +42,7 @@ function App() {
 
   const handleGenerateProposal = async (grant: GrantMatch) => {
     try {
+      setSelectedGrantId(grant.id);
       setIsGeneratingProposal(true);
       setError(null);
       const payload = {
@@ -162,12 +165,16 @@ function App() {
                 key={grant.id}
                 grant={grant}
                 onGenerateProposal={handleGenerateProposal}
-                isLoading={isGeneratingProposal}
+                isGenerating={
+                  isGeneratingProposal && selectedGrantId === grant.id
+                }
+                isDisabled={isGeneratingProposal}
+                isSelected={selectedGrantId === grant.id}
               />
             ))
           ) : (
             <p className="col-span-full rounded-2xl border border-slate-800 bg-slate-900/60 p-6 text-center text-slate-300">
-              Matching your project with grants...
+              {isMatching ? "Matching your project with grants..." : "No matches found."}
             </p>
           )
         ) : (

@@ -3,12 +3,26 @@ import type { GrantMatch } from "../types";
 interface GrantCardProps {
   grant: GrantMatch;
   onGenerateProposal: (grant: GrantMatch) => void;
-  isLoading: boolean;
+  isGenerating: boolean;
+  isDisabled: boolean;
+  isSelected: boolean;
 }
 
-const GrantCard = ({ grant, onGenerateProposal, isLoading }: GrantCardProps) => {
+const GrantCard = ({
+  grant,
+  onGenerateProposal,
+  isGenerating,
+  isDisabled,
+  isSelected,
+}: GrantCardProps) => {
   return (
-    <article className="flex flex-col gap-4 rounded-xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg">
+    <article
+      className={`flex flex-col gap-4 rounded-xl border p-6 shadow-lg transition-colors ${
+        isSelected
+          ? "border-yellow-400 bg-yellow-500/10"
+          : "border-slate-800 bg-slate-900/60"
+      }`}
+    >
       <header className="flex items-start justify-between">
         <div>
           <h3 className="text-xl font-semibold text-white">{grant.title}</h3>
@@ -40,9 +54,9 @@ const GrantCard = ({ grant, onGenerateProposal, isLoading }: GrantCardProps) => 
           type="button"
           className="inline-flex items-center gap-2 rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-400 disabled:cursor-not-allowed disabled:bg-slate-700"
           onClick={() => onGenerateProposal(grant)}
-          disabled={isLoading}
+          disabled={isDisabled}
         >
-          {isLoading ? "Generating..." : "Generate Proposal"}
+          {isGenerating ? "Generating..." : "Generate Proposal"}
         </button>
       </footer>
     </article>
