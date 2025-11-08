@@ -27,6 +27,7 @@ KEYWORD_WEIGHT = 0.4
 COSINE_MIN = float(os.getenv("GEMINI_COSINE_MIN", "0.3"))
 COSINE_MAX = float(os.getenv("GEMINI_COSINE_MAX", "0.7"))
 FOCUS_MATCH_BONUS = float(os.getenv("FOCUS_MATCH_BONUS", "1.5"))
+MIN_MATCH_SCORE = float(os.getenv("MIN_MATCH_SCORE", "0.25"))
 
 _embedding_cache: Dict[str, List[float]] = {}
 _genai_configured = False
@@ -145,7 +146,9 @@ def simple_keyword_extract(text: str, max_keywords: int) -> List[str]:
     return unique[:max_keywords]
 
 
-def find_top_grants(keywords: List[str], project_description: str, limit: int = 3) -> List[Dict[str, Any]]:
+def find_top_grants(
+    keywords: List[str], project_description: str, limit: Optional[int] = None
+) -> List[Dict[str, Any]]:
     if not keywords:
         keywords = ["innovation"]
 
@@ -212,8 +215,15 @@ def find_top_grants(keywords: List[str], project_description: str, limit: int = 
     df = df.copy()
     df["score"] = df.apply(score_row, axis=1)
     df = df.sort_values(by="score", ascending=False)
-    top = df.head(limit)
-    return top.to_dict(orient="records")
+    filtered = df[df["score"] >= MIN_MATCH_SCORE]
+
+    if not filtered.empty:
+        return filtered.to_dict(orient="records")
+
+    if limit is not None:
+        return df.head(limit).to_dict(orient="records")
+
+    return df.to_dict(orient="records")
 
 
 def generate_proposal(project_description: str, grant: Dict[str, Any]) -> str:
@@ -227,7 +237,7 @@ def generate_proposal(project_description: str, grant: Dict[str, Any]) -> str:
         Guidelines:
         - Keep the tone professional, clear, and persuasive.
         - Use factual language only. Do not invent or assume data (dates, names, budgets, etc.). Write “TBD” where unknown.
-        - Stay under 250 words total if possible.
+        - Stay under 500 words total if possible.
         - Do NOT include section labels like [LABEL] or any markdown formatting.
         - Return only the proposal text — no commentary, notes, or explanations.
 
