@@ -218,12 +218,49 @@ def find_top_grants(keywords: List[str], project_description: str, limit: int = 
 
 def generate_proposal(project_description: str, grant: Dict[str, Any]) -> str:
     """Generate a short proposal draft referencing the selected grant."""
-    prompt = (
-        "You are drafting a concise grant proposal summary (150-200 words). "
-        "Use the JSON objects below to tailor the draft. Structure the response with "
-        "a brief opening, project impact, alignment with the funder's goals, and a closing call to action.\n\n"
-        "Grant:\n{grant}\n\nProject description:\n{description}"
-    ).format(grant=json.dumps(grant, indent=2), description=project_description.strip())
+    prompt = """
+        You are a professional grant writer creating a concise proposal draft for a potential funder.
+
+        Your goal is to align the applicant’s project with the selected grant’s goals, based solely on the provided information.
+        Use the details from the grant JSON and project description to complete the following template faithfully.
+
+        Guidelines:
+        - Keep the tone professional, clear, and persuasive.
+        - Use factual language only. Do not invent or assume data (dates, names, budgets, etc.). Write “TBD” where unknown.
+        - Stay under 250 words total if possible.
+        - Do NOT include section labels like [LABEL] or any markdown formatting.
+        - Return only the proposal text — no commentary, notes, or explanations.
+
+        Follow this exact structure:
+
+        1. A short, impactful headline that summarizes the project’s alignment with the grant’s mission.
+
+        2. Objective:
+        A concise summary showing how the project uniquely addresses the funder’s goals or focus areas.
+
+        3. Scope:
+        Define exactly what the proposal will cover, focusing on measurable outcomes and beneficiaries.
+
+        4. Deliverables / Timeline / Investment:
+        Deliverable #1 - Description | Delivery Date #1 | Budget Item #1
+        Deliverable #2 - Description | Delivery Date #2 | Budget Item #2
+        Deliverable #3 - Description | Delivery Date #3 | Budget Item #3
+
+        5. Contact Details:
+        Representative Name – TBD
+        Email – TBD
+        Phone – TBD
+        Organization – Short description and website link (if available)
+
+        Grant JSON:
+        {grant}
+
+        Project Description:
+        {description}
+    """.format(
+            grant=json.dumps(grant, indent=2),
+            description=project_description.strip()
+        )
 
     if genai and os.getenv("GEMINI_API_KEY"):
         try:
@@ -236,9 +273,19 @@ def generate_proposal(project_description: str, grant: Dict[str, Any]) -> str:
             get_app_logger().warning("Gemini proposal generation failed: %s", exc)
 
     return (
-        f"Our project, described as '{project_description[:140]}...', aligns with the goals of {grant['title']}. "
-        "We will leverage grant funds to accelerate measurable outcomes, collaborate with community partners, "
-        "and deliver transparent reporting to the funder."
+        "DUMMY DATA\n"
+        "The Title: The Most Important Phrase\n\n"
+        f"{grant['title']} Partnership Momentum\n\n\n"
+        "Objective\n\n\n"
+        f"{project_description.strip()} Our initiative aligns with the funder's focus by advancing {', '.join(grant.get('focus_areas', []))} priorities.\n\n\n"
+        "Scope\n\n\n"
+        f"We will collaborate with stakeholders to execute programming that reflects the grant's goals, centering the community described in the project narrative and the outcomes highlighted in the grant summary.\n\n\n"
+        "Deliverables Timeline Investment\n\n\n"
+        "Deliverable #1 - Detailed kickoff and stakeholder alignment | Delivery Date #1: TBD | Budget Item #1: TBD\n"
+        "Deliverable #2 - Core program activities and community reporting | Delivery Date #2: TBD | Budget Item #2: TBD\n"
+        "Deliverable #3 - Final impact summary with lessons learned | Delivery Date #3: TBD | Budget Item #3: TBD\n\n\n"
+        "Contact Details\n\n\n"
+        "Representative Name: TBD | Contact: TBD | Organization overview and website: TBD"
     )
 
 
