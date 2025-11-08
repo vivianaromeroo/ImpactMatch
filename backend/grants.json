@@ -1,0 +1,327 @@
+[
+  {
+    "id": "grant-001",
+    "title": "Community Resilience Microgrant",
+    "focus_areas": ["climate adaptation", "community resilience", "infrastructure"],
+    "geography": ["rural", "coastal"],
+    "funding_range": "USD 5,000 - 25,000",
+    "summary": "Funds grassroots projects improving resilience to climate-driven disasters in vulnerable communities.",
+    "eligibility": [
+      "Registered nonprofit or community-based organization",
+      "Project timeline under 24 months",
+      "Demonstrated community partnership"
+    ]
+  },
+  {
+    "id": "grant-002",
+    "title": "Youth STEAM Innovation Fund",
+    "focus_areas": ["education", "technology", "arts"],
+    "geography": ["urban", "suburban"],
+    "funding_range": "USD 10,000 - 50,000",
+    "summary": "Supports programs blending science, technology, engineering, arts, and math to empower young innovators.",
+    "eligibility": [
+      "Serves youth ages 12-18",
+      "Operates in Title I school districts or equivalent",
+      "Program evaluation plan required"
+    ]
+  },
+  {
+    "id": "grant-003",
+    "title": "Clean Energy Accelerator Grant",
+    "focus_areas": ["renewable energy", "workforce development"],
+    "geography": ["national"],
+    "funding_range": "USD 50,000 - 150,000",
+    "summary": "Invests in workforce training and deployment of community-scale clean energy projects.",
+    "eligibility": [
+      "Public-private partnership or consortium",
+      "Project launches within 12 months",
+      "Includes workforce training curriculum"
+    ]
+  },
+  {
+    "id": "grant-004",
+    "title": "Health Equity Innovation Award",
+    "focus_areas": ["healthcare access", "health equity", "research"],
+    "geography": ["national"],
+    "funding_range": "USD 25,000 - 75,000",
+    "summary": "Backs community-led innovations addressing systemic barriers to health care access.",
+    "eligibility": [
+      "501(c)(3) status",
+      "Serves historically marginalized groups",
+      "Partnership with local health providers"
+    ]
+  },
+  {
+    "id": "grant-005",
+    "title": "Digital Literacy Expansion Fund",
+    "focus_areas": ["education", "digital inclusion", "technology"],
+    "geography": ["urban", "rural"],
+    "funding_range": "USD 15,000 - 100,000",
+    "summary": "Expands digital literacy and access to technology in underserved communities.",
+    "eligibility": [
+      "Educational institutions or nonprofits",
+      "Demonstrated digital equity mission",
+      "Provides measurable community outcomes"
+    ]
+  },
+  {
+    "id": "grant-006",
+    "title": "Local Food Systems Resilience Grant",
+    "focus_areas": ["sustainability", "agriculture", "food security"],
+    "geography": ["regional"],
+    "funding_range": "USD 20,000 - 80,000",
+    "summary": "Supports community-based food production and distribution projects improving local food access.",
+    "eligibility": [
+      "Agricultural co-ops or nonprofits",
+      "Community partnership required",
+      "Budget under USD 500,000"
+    ]
+  },
+  {
+    "id": "grant-007",
+    "title": "Women in Tech Leadership Fellowship",
+    "focus_areas": ["technology", "gender equity", "career development"],
+    "geography": ["national"],
+    "funding_range": "USD 30,000 - 100,000",
+    "summary": "Empowers women pursuing leadership roles in technology and entrepreneurship.",
+    "eligibility": [
+      "Women-led organizations",
+      "Mentorship component required",
+      "At least one prior program cycle completed"
+    ]
+  },
+  {
+    "id": "grant-008",
+    "title": "Arts for Social Change Grant",
+    "focus_areas": ["arts", "social justice", "community engagement"],
+    "geography": ["urban", "national"],
+    "funding_range": "USD 10,000 - 75,000",
+    "summary": "Funds artists and organizations using creative expression to drive community conversations and social change.",
+    "eligibility": [
+      "501(c)(3) or fiscal sponsorship required",
+      "Public engagement activities required",
+      "Diversity of artists encouraged"
+    ]
+  },
+  {
+    "id": "grant-009",
+    "title": "Inclusive Entrepreneurship Fund",
+    "focus_areas": ["economic empowerment", "small business", "inclusion"],
+    "geography": ["national"],
+    "funding_range": "USD 25,000 - 200,000",
+    "summary": "Supports programs helping underrepresented entrepreneurs access capital, mentorship, and resources.",
+    "eligibility": [
+      "Community-based organizations or accelerators",
+      "Must serve minority-owned or women-led startups",
+      "Impact reporting required"
+    ]
+  },
+  {
+    "id": "grant-010",
+    "title": "Climate Tech Pilot Challenge",
+    "focus_areas": ["climate innovation", "clean tech", "research"],
+    "geography": ["national"],
+    "funding_range": "USD 50,000 - 300,000",
+    "summary": "Funds early-stage pilot projects using emerging tech to mitigate carbon emissions.",
+    "eligibility": [
+      "Research institutions or startups",
+      "Prototype or feasibility study required",
+      "Open data sharing policy"
+    ]
+  },
+  {
+    "id": "grant-011",
+    "title": "Accessible Education Infrastructure Fund",
+    "focus_areas": ["education", "accessibility", "infrastructure"],
+    "geography": ["national"],
+    "funding_range": "USD 20,000 - 120,000",
+    "summary": "Improves physical and digital accessibility in schools, libraries, and community centers.",
+    "eligibility": [
+      "Public or nonprofit educational institutions",
+      "Accessibility audit documentation required",
+      "Implementation within 18 months"
+    ]
+  },
+  {
+    "id": "grant-012",
+    "title": "Community College Innovation Grant (Miami Dade College Example)",
+    "focus_areas": ["higher education", "workforce development", "innovation"],
+    "geography": ["Florida", "regional"],
+    "funding_range": "USD 50,000 - 250,000",
+    "summary": "Supports community colleges developing innovative programs that align workforce skills with emerging industries such as AI, sustainability, and healthcare.",
+    "eligibility": [
+      "Accredited community college or consortium",
+      "Industry or employer partnership required",
+      "Evaluation and student outcome tracking plan"
+    ]
+  },
+  {
+    "id": "grant-013",
+    "title": "Public Health Preparedness Fund",
+    "focus_areas": ["public health", "emergency response", "training"],
+    "geography": ["national"],
+    "funding_range": "USD 40,000 - 150,000",
+    "summary": "Enhances capacity of local health departments to prepare for and respond to public health emergencies.",
+    "eligibility": [
+      "Health departments or nonprofits",
+      "Emergency preparedness focus",
+      "Annual reporting requirement"
+    ]
+  },
+  {
+    "id": "grant-014",
+    "title": "STEM Education Access Challenge",
+    "focus_areas": ["STEM", "education equity", "teacher training"],
+    "geography": ["urban", "rural"],
+    "funding_range": "USD 10,000 - 60,000",
+    "summary": "Expands equitable access to high-quality STEM education through teacher training and materials.",
+    "eligibility": [
+      "K-12 institutions or education nonprofits",
+      "At least 50% underserved population",
+      "Teacher training plan required"
+    ]
+  },
+  {
+    "id": "grant-015",
+    "title": "Sustainable Transportation Pilot Grant",
+    "focus_areas": ["transportation", "sustainability", "urban planning"],
+    "geography": ["urban", "regional"],
+    "funding_range": "USD 100,000 - 400,000",
+    "summary": "Funds local governments testing innovative mobility solutions that reduce emissions.",
+    "eligibility": [
+      "Municipal or regional agencies",
+      "Environmental impact analysis required",
+      "Collaboration with transportation experts"
+    ]
+  },
+  {
+    "id": "grant-016",
+    "title": "Veterans Career Advancement Fund",
+    "focus_areas": ["veterans", "employment", "education"],
+    "geography": ["national"],
+    "funding_range": "USD 20,000 - 100,000",
+    "summary": "Supports veteran-serving organizations providing job training and career services.",
+    "eligibility": [
+      "Nonprofit serving U.S. veterans",
+      "Program must include career placement component",
+      "Annual reporting required"
+    ]
+  },
+  {
+    "id": "grant-017",
+    "title": "Urban Greening Partnership Grant",
+    "focus_areas": ["urban planning", "environment", "community engagement"],
+    "geography": ["urban"],
+    "funding_range": "USD 25,000 - 90,000",
+    "summary": "Funds local projects creating urban green spaces, tree planting, and community gardens.",
+    "eligibility": [
+      "Municipal or community organization",
+      "Public access space required",
+      "Maintenance plan included"
+    ]
+  },
+  {
+    "id": "grant-018",
+    "title": "Inclusive Arts Fellowship",
+    "focus_areas": ["arts", "accessibility", "disability inclusion"],
+    "geography": ["national"],
+    "funding_range": "USD 10,000 - 40,000",
+    "summary": "Funds artists with disabilities and organizations promoting inclusive arts practices.",
+    "eligibility": [
+      "Individuals or arts organizations",
+      "Accessibility plan required",
+      "Public engagement component"
+    ]
+  },
+  {
+    "id": "grant-019",
+    "title": "Water Innovation Research Fund",
+    "focus_areas": ["water management", "sustainability", "research"],
+    "geography": ["national"],
+    "funding_range": "USD 75,000 - 300,000",
+    "summary": "Supports applied research in sustainable water technologies and community-based conservation.",
+    "eligibility": [
+      "Universities or research labs",
+      "Pilot or demonstration required",
+      "Partnership with local utility preferred"
+    ]
+  },
+  {
+    "id": "grant-020",
+    "title": "Rural Broadband Expansion Grant",
+    "focus_areas": ["infrastructure", "digital access", "rural development"],
+    "geography": ["rural"],
+    "funding_range": "USD 100,000 - 500,000",
+    "summary": "Expands broadband access to rural communities lacking reliable internet infrastructure.",
+    "eligibility": [
+      "Telecom providers, co-ops, or local governments",
+      "Feasibility study required",
+      "Completion within 3 years"
+    ]
+  },
+  {
+    "id": "grant-021",
+    "title": "Creative Youth Empowerment Fund",
+    "focus_areas": ["youth", "arts", "community development"],
+    "geography": ["urban", "suburban"],
+    "funding_range": "USD 5,000 - 30,000",
+    "summary": "Empowers young people to lead creative projects that uplift their communities.",
+    "eligibility": [
+      "Youth-led organizations or schools",
+      "Ages 15-24 must lead the project",
+      "Adult mentorship required"
+    ]
+  },
+  {
+    "id": "grant-022",
+    "title": "AI for Social Good Grant",
+    "focus_areas": ["artificial intelligence", "social impact", "ethics"],
+    "geography": ["national"],
+    "funding_range": "USD 50,000 - 200,000",
+    "summary": "Funds projects using AI ethically to address social, environmental, or humanitarian challenges.",
+    "eligibility": [
+      "Academic, nonprofit, or startup organization",
+      "Clear social impact framework",
+      "Open-source component encouraged"
+    ]
+  },
+  {
+    "id": "grant-023",
+    "title": "Neighborhood Safety and Design Grant",
+    "focus_areas": ["public safety", "urban design", "community engagement"],
+    "geography": ["urban"],
+    "funding_range": "USD 15,000 - 75,000",
+    "summary": "Improves public safety and walkability through community-driven design improvements.",
+    "eligibility": [
+      "Neighborhood associations or nonprofits",
+      "Resident participation required",
+      "Local government support letter"
+    ]
+  },
+  {
+    "id": "grant-024",
+    "title": "Senior Wellness Initiative Fund",
+    "focus_areas": ["health", "aging", "community services"],
+    "geography": ["national"],
+    "funding_range": "USD 10,000 - 60,000",
+    "summary": "Supports programs improving quality of life, health, and social connection for older adults.",
+    "eligibility": [
+      "Nonprofits or community centers",
+      "Serves adults 60+",
+      "Evidence-based outcomes encouraged"
+    ]
+  },
+  {
+    "id": "grant-025",
+    "title": "Environmental Justice Partnership Grant",
+    "focus_areas": ["environmental justice", "advocacy", "policy"],
+    "geography": ["national"],
+    "funding_range": "USD 50,000 - 250,000",
+    "summary": "Funds grassroots coalitions addressing environmental injustices affecting marginalized populations.",
+    "eligibility": [
+      "Nonprofits or advocacy groups",
+      "Community leadership representation required",
+      "Policy or systems change focus"
+    ]
+  }
+]
