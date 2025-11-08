@@ -19,7 +19,7 @@ except ImportError:  # pragma: no cover - library optional in mock environments
 
 BASE_DIR = Path(__file__).resolve().parent
 GRANTS_PATH = BASE_DIR / "grants.json"
-DEFAULT_MODEL = "models/gemini-pro"
+DEFAULT_MODEL = os.getenv("GEMINI_MODEL")
 
 
 def create_app() -> Flask:

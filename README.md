@@ -33,6 +33,7 @@ Create `backend/.env` (optional but recommended):
 
 ```
 GEMINI_API_KEY=your-google-generative-ai-key
+GEMINI_MODEL=models/gemini-2.5-flash
 PORT=8000
 ```
 

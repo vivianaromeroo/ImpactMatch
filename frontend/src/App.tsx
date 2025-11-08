@@ -70,7 +70,7 @@ function App() {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 px-4 py-10">
+    <div className="mx-auto flex min-h-screen max-w-7xl flex-col gap-8 px-4 py-10">
       <nav className="flex items-center justify-between rounded-2xl px-6 py-4 shadow-lg">
         <img
           src={impactLogo}
@@ -106,8 +106,10 @@ function App() {
 
       <section className="grid gap-6 md:grid-cols-[1.3fr_1fr]">
         <div className="flex flex-col rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg">
-          <label htmlFor="project-description" className="text-sm font-medium">
-            Project description
+          <label>
+            <h2 className="text-lg font-semibold text-white">
+                Project Description
+            </h2>
           </label>
           <textarea
             id="project-description"
@@ -145,7 +147,7 @@ function App() {
 
         <aside className="flex flex-col gap-3 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg">
           <h2 className="text-lg font-semibold text-white">
-            Gemini proposal draft
+            Grant Proposal Draft
           </h2>
           <p className="text-sm text-slate-300">
             Select a grant match to generate a tailored summary you can use in
