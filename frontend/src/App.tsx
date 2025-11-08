@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import impactLogo from "./assets/Logo.png";
 import GrantCard from "./components/GrantCard";
 import { matchGrants, generateProposal } from "./api/client";
-import type {
-  GrantMatch,
-  MatchResponse,
-  ProposalResponse,
-} from "./types";
+import type { GrantMatch, MatchResponse, ProposalResponse } from "./types";
+
+type SortOption =
+  | "score-desc"
+  | "score-asc"
+  | "funding-desc"
+  | "funding-asc"
+  | "title-asc";
 
 function App() {
-  const [projectDescription, setProjectDescription] = useState(
-    "Introduce your project idea and the impact you aim to create.",
-  );
+  const [projectDescription, setProjectDescription] = useState("",);
   const [keywords, setKeywords] = useState<string[]>([]);
   const [matches, setMatches] = useState<GrantMatch[]>([]);
   const [proposalDraft, setProposalDraft] = useState<string>("");
@@ -20,6 +21,8 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedGrantId, setSelectedGrantId] = useState<string | null>(null);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
+  const [sortOption, setSortOption] = useState<SortOption>("score-desc");
 
   const handleMatch = async () => {
     try {
@@ -32,6 +35,7 @@ function App() {
       const response: MatchResponse = await matchGrants(payload);
       setMatches(response.matches);
       setKeywords(response.keywords);
+      setSortOption("score-desc");
     } catch (err) {
       console.error(err);
       setError("We hit a snag while fetching grant matches. Try again soon.");
@@ -58,6 +62,71 @@ function App() {
       setIsGeneratingProposal(false);
     }
   };
+
+  useEffect(() => {
+    if (copyStatus === "idle") {
+      return;
+    }
+    const timeoutId = window.setTimeout(() => setCopyStatus("idle"), 2000);
+    return () => window.clearTimeout(timeoutId);
+  }, [copyStatus]);
+
+  const handleCopyProposal = async () => {
+    if (!proposalDraft.trim()) {
+      return;
+    }
+
+    if (!navigator?.clipboard?.writeText) {
+      setCopyStatus("error");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(proposalDraft);
+      setCopyStatus("copied");
+    } catch (copyError) {
+      console.error(copyError);
+      setCopyStatus("error");
+    }
+  };
+
+  const getFundingMaximum = (grant: GrantMatch): number => {
+    const range = grant.fundingRange ?? "";
+    const matches = range.match(/[\d,]+/g);
+    if (!matches) {
+      return 0;
+    }
+    const amounts = matches
+      .map((value) => parseInt(value.replace(/[^\d]/g, ""), 10))
+      .filter((value) => Number.isFinite(value) && value > 0);
+    if (amounts.length === 0) {
+      return 0;
+    }
+    return Math.max(...amounts);
+  };
+
+  const sortedMatches = useMemo(() => {
+    const sorted = [...matches];
+    switch (sortOption) {
+      case "score-asc":
+        sorted.sort((a, b) => a.score - b.score);
+        break;
+      case "funding-desc":
+        sorted.sort((a, b) => getFundingMaximum(b) - getFundingMaximum(a));
+        break;
+      case "funding-asc":
+        sorted.sort((a, b) => getFundingMaximum(a) - getFundingMaximum(b));
+        break;
+      case "title-asc":
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "score-desc":
+      default:
+        sorted.sort((a, b) => b.score - a.score);
+        break;
+    }
+    return sorted;
+  }, [matches, sortOption]);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-7xl flex-col gap-8 px-4 py-10">
@@ -106,7 +175,7 @@ function App() {
             value={projectDescription}
             onChange={(event) => setProjectDescription(event.target.value)}
             className="mt-3 min-h-[180px] rounded-xl border border-slate-700 bg-slate-950/60 p-4 text-sm text-slate-100 outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-500/40"
-            placeholder="Describe the problem you are tackling, the community impacted, and the solution you propose."
+            placeholder="Describe your project in detail — what challenge or need are you addressing, who is most affected, and how your proposed solution will create measurable impact or change."
           />
           <button
             type="button"
@@ -136,9 +205,23 @@ function App() {
         </div>
 
         <aside className="flex flex-col gap-3 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg">
-          <h2 className="text-lg font-semibold text-white">
-            Grant Proposal Draft
-          </h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-lg font-semibold text-white">
+              Grant Proposal Draft
+            </h2>
+            <button
+              type="button"
+              onClick={handleCopyProposal}
+              disabled={!proposalDraft.trim()}
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-100 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-500"
+            >
+              {copyStatus === "copied"
+                ? "Copied!"
+                : copyStatus === "error"
+                ? "Copy Failed"
+                : "Copy"}
+            </button>
+          </div>
           <p className="text-sm text-slate-300">
             Select a grant match to generate a tailored summary you can use in
             your application.
@@ -154,13 +237,42 @@ function App() {
               </p>
             )}
           </div>
+          {copyStatus === "error" && (
+            <p className="text-xs text-rose-300">
+              We couldn&apos;t copy the text. Please try again manually.
+            </p>
+          )}
         </aside>
       </section>
+
+      <div className="mt-8 border-t border-slate-800 pt-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <h2 className="text-lg font-semibold text-white">Grant Matches</h2>
+          {hasSearched && matches.length > 0 && (
+            <label className="flex items-center gap-3 text-sm text-slate-300">
+              <span>Sort by</span>
+              <select
+                value={sortOption}
+                onChange={(event) =>
+                  setSortOption(event.target.value as SortOption)
+                }
+                className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm text-slate-100 transition focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              >
+                <option value="score-desc">Match score (high to low)</option>
+                <option value="score-asc">Match score (low to high)</option>
+                <option value="funding-desc">Funding amount (high to low)</option>
+                <option value="funding-asc">Funding amount (low to high)</option>
+                <option value="title-asc">Title (A to Z)</option>
+              </select>
+            </label>
+          )}
+        </div>
+      </div>
 
       <section className="grid gap-6 md:grid-cols-2">
         {hasSearched ? (
           matches.length > 0 ? (
-            matches.map((grant) => (
+            sortedMatches.map((grant) => (
               <GrantCard
                 key={grant.id}
                 grant={grant}

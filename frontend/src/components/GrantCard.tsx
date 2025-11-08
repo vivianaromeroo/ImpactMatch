@@ -15,6 +15,31 @@ const GrantCard = ({
   isDisabled,
   isSelected,
 }: GrantCardProps) => {
+  const fundingMaxLabel = (() => {
+    const range = grant.fundingRange ?? "";
+    const matches = range.match(/[\d,]+/g);
+    if (!matches || matches.length === 0) {
+      return null;
+    }
+
+    const amounts = matches
+      .map((value) => parseInt(value.replace(/[^\d]/g, ""), 10))
+      .filter((value) => Number.isFinite(value) && value > 0);
+
+    if (amounts.length === 0) {
+      return null;
+    }
+
+    const maxAmount = Math.max(...amounts);
+    const formatted = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(maxAmount);
+
+    return `Funding up to ${formatted}`;
+  })();
+
   return (
     <article
       className={`flex flex-col gap-4 rounded-xl border p-6 shadow-lg transition-colors ${
@@ -34,6 +59,11 @@ const GrantCard = ({
       </header>
 
       <p className="text-sm text-slate-300">{grant.summary}</p>
+      {fundingMaxLabel && (
+        <p className="text-sm font-semibold text-primary-200">
+          {fundingMaxLabel}
+        </p>
+      )}
 
       <section>
         <h4 className="text-sm font-semibold text-white">Eligibility check</h4>

@@ -4,6 +4,7 @@ export interface GrantMatch {
   score: number;
   summary: string;
   eligibilityChecklist: string[];
+  fundingRange: string;
 }
 
 export interface MatchRequest {

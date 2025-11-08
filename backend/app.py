@@ -61,6 +61,7 @@ def create_app() -> Flask:
                     "score": grant["score"],
                     "summary": grant["summary"],
                     "eligibilityChecklist": grant["eligibility"],
+                    "fundingRange": grant.get("funding_range", "TBD"),
                 }
                 for grant in matches
             ],
