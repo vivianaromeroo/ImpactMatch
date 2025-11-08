@@ -4,12 +4,13 @@
     "title": "Community Resilience Microgrant",
     "focus_areas": ["climate adaptation", "community resilience", "infrastructure"],
     "geography": ["rural", "coastal"],
-    "funding_range": "USD 5,000 - 25,000",
-    "summary": "Funds grassroots projects improving resilience to climate-driven disasters in vulnerable communities.",
+    "funding_range": "$5,000 - $25,000",
+    "summary": "Provides catalytic funding for neighborhood-led preparedness plans, micro-infrastructure upgrades, and resilience hubs that help coastal and rural residents withstand climate-driven floods, storms, and heat waves. Supports collaborative planning between residents, emergency managers, and local businesses to ensure culturally responsive response protocols. Encourages dissemination of preparedness toolkits and community drills that improve long-term hazard readiness.",
     "eligibility": [
-      "Registered nonprofit or community-based organization",
-      "Project timeline under 24 months",
-      "Demonstrated community partnership"
+      "Registered nonprofit, community-based organization, or tribal entity with demonstrated local leadership",
+      "Project timeline under 24 months with clear milestones for preparedness and implementation",
+      "Documented partnerships with residents, emergency responders, or municipal agencies, including letters of support",
+      "Plan for community outreach and knowledge-sharing that can be replicated in similar geographies"
     ]
   },
   {
@@ -17,12 +18,13 @@
     "title": "Youth STEAM Innovation Fund",
     "focus_areas": ["education", "technology", "arts"],
     "geography": ["urban", "suburban"],
-    "funding_range": "USD 10,000 - 50,000",
-    "summary": "Supports programs blending science, technology, engineering, arts, and math to empower young innovators.",
+    "funding_range": "$10,000 - $50,000",
+    "summary": "Invests in afterschool and summer programs that integrate robotics, creative coding, digital storytelling, and design thinking to build confidence among youth innovators. Prioritizes initiatives that weave arts-based approaches into STEM competencies, especially for students historically excluded from technology careers. Supports cross-sector partnerships that culminate in public showcases, hackathons, or exhibitions elevating youth-led solutions.",
     "eligibility": [
-      "Serves youth ages 12-18",
-      "Operates in Title I school districts or equivalent",
-      "Program evaluation plan required"
+      "Serves youth ages 12-18 with intentional outreach to underrepresented genders and racial or ethnic groups",
+      "Operates in Title I school districts or equivalent low-income communities, with data demonstrating need",
+      "Program evaluation plan detailing qualitative and quantitative metrics, data collection methods, and reporting schedule",
+      "Evidence of mentorship model linking participants with college, industry, or artist mentors throughout the program cycle"
     ]
   },
   {
@@ -30,12 +32,13 @@
     "title": "Clean Energy Accelerator Grant",
     "focus_areas": ["renewable energy", "workforce development"],
     "geography": ["national"],
-    "funding_range": "USD 50,000 - 150,000",
-    "summary": "Invests in workforce training and deployment of community-scale clean energy projects.",
+    "funding_range": "$50,000 - $150,000",
+    "summary": "Catalyzes community-scale solar, wind, and battery storage deployments paired with paid workforce training for residents transitioning from fossil fuel industries. Advances skills development through stackable credentials, apprenticeships, and employer commitments to hire graduates into living-wage clean energy careers. Encourages projects that integrate energy equity goals, demand forecasting, and measurable emissions reductions.",
     "eligibility": [
-      "Public-private partnership or consortium",
-      "Project launches within 12 months",
-      "Includes workforce training curriculum"
+      "Public-private partnership or consortium including community-based organizations, training providers, and employer partners",
+      "Project launches within 12 months and demonstrates site control, permitting milestones, and grid interconnection planning",
+      "Includes workforce training curriculum aligned with industry certifications and tracked job placement outcomes",
+      "Environmental justice impact assessment highlighting benefits to frontline or low-income communities"
     ]
   },
   {
@@ -43,12 +46,13 @@
     "title": "Health Equity Innovation Award",
     "focus_areas": ["healthcare access", "health equity", "research"],
     "geography": ["national"],
-    "funding_range": "USD 25,000 - 75,000",
-    "summary": "Backs community-led innovations addressing systemic barriers to health care access.",
+    "funding_range": "$25,000 - $75,000",
+    "summary": "Backs community-designed solutions that dismantle structural barriers to preventive care, mental health services, and chronic disease management for marginalized populations. Encourages projects combining culturally responsive care models, data-driven outreach, and co-created research with patient advocates. Funds pilot studies that identify scalable pathways to improve quality outcomes and reduce health disparities.",
     "eligibility": [
-      "501(c)(3) status",
-      "Serves historically marginalized groups",
-      "Partnership with local health providers"
+      "501(c)(3) status or fiscally sponsored initiative with documented governance structure",
+      "Serves historically marginalized groups such as Black, Indigenous, immigrant, LGBTQ+, or rural populations with limited care access",
+      "Formal partnership with local health providers, clinics, or health departments including a shared data plan",
+      "Evaluation design outlining patient or community advisory input, outcome measures, and dissemination strategy"
     ]
   },
   {
@@ -56,12 +60,13 @@
     "title": "Digital Literacy Expansion Fund",
     "focus_areas": ["education", "digital inclusion", "technology"],
     "geography": ["urban", "rural"],
-    "funding_range": "USD 15,000 - 100,000",
-    "summary": "Expands digital literacy and access to technology in underserved communities.",
+    "funding_range": "$15,000 - $100,000",
+    "summary": "Supports expansion of community computer labs, mobile device lending programs, and bilingual curriculum that equip learners of all ages with essential digital skills. Funds wraparound services such as broadband subsidies, hardware repair clinics, and digital navigation coaching. Prioritizes programs demonstrating long-term sustainability plans, intergenerational learning models, and strong local employer partnerships.",
     "eligibility": [
-      "Educational institutions or nonprofits",
-      "Demonstrated digital equity mission",
-      "Provides measurable community outcomes"
+      "Educational institutions, public libraries, or nonprofits with a demonstrated digital equity mission and active governance board",
+      "Ability to track learner progress through pre- and post-assessments, credential attainment, or employment outcomes",
+      "Partnership agreements with community stakeholders such as workforce boards, housing authorities, or school districts",
+      "Detailed implementation plan for accessibility accommodations and multilingual support"
     ]
   },
   {
@@ -69,12 +74,13 @@
     "title": "Local Food Systems Resilience Grant",
     "focus_areas": ["sustainability", "agriculture", "food security"],
     "geography": ["regional"],
-    "funding_range": "USD 20,000 - 80,000",
-    "summary": "Supports community-based food production and distribution projects improving local food access.",
+    "funding_range": "$20,000 - $80,000",
+    "summary": "Advances regenerative farming, community-supported agriculture, and culturally relevant food distribution networks that shorten supply chains. Encourages food hubs integrating cold storage, aggregation, and cooperative marketing to stabilize incomes for small producers. Invests in farmer training, soil health data collection, and climate-smart infrastructure that enhance regional food sovereignty.",
     "eligibility": [
-      "Agricultural co-ops or nonprofits",
-      "Community partnership required",
-      "Budget under USD 500,000"
+      "Agricultural cooperatives, tribal food councils, or nonprofits with demonstrated experience in community-based food systems",
+      "Community partnership required, including letters of commitment from growers, distributors, and consumer organizations",
+      "Operating budget under $500,000 or clear plan showing how grant will leverage additional investments",
+      "Compliance with sustainable land stewardship standards and transparent reporting on distribution outcomes"
     ]
   },
   {
@@ -82,12 +88,13 @@
     "title": "Women in Tech Leadership Fellowship",
     "focus_areas": ["technology", "gender equity", "career development"],
     "geography": ["national"],
-    "funding_range": "USD 30,000 - 100,000",
-    "summary": "Empowers women pursuing leadership roles in technology and entrepreneurship.",
+    "funding_range": "$30,000 - $100,000",
+    "summary": "Empowers women and nonbinary technologists to access executive pathways through tailored leadership curricula, executive coaching, and venture-building labs. Provides peer learning cohorts, sponsorship opportunities with industry executives, and support for fellows launching impact ventures. Prioritizes models with measurable improvements in retention, promotion, and pay equity across partner organizations.",
     "eligibility": [
-      "Women-led organizations",
-      "Mentorship component required",
-      "At least one prior program cycle completed"
+      "Women-led or nonbinary-led organizations with at least one completed fellowship or cohort program demonstrating participant success",
+      "Mentorship component required, including structured matching, mentor training, and documented mentor engagement hours",
+      "Commitment to collecting longitudinal data on participant career advancement, compensation, and leadership outcomes",
+      "Policies ensuring inclusive recruitment of women of color, LGBTQ+ participants, caregivers, and professionals with disabilities"
     ]
   },
   {
@@ -95,12 +102,13 @@
     "title": "Arts for Social Change Grant",
     "focus_areas": ["arts", "social justice", "community engagement"],
     "geography": ["urban", "national"],
-    "funding_range": "USD 10,000 - 75,000",
-    "summary": "Funds artists and organizations using creative expression to drive community conversations and social change.",
+    "funding_range": "$10,000 - $75,000",
+    "summary": "Funds multidisciplinary art projects that elevate lived experiences of marginalized communities and catalyze civic dialogue. Supports public installations, participatory performances, and storytelling campaigns co-created with residents, activists, and cultural bearers. Encourages projects with policy or systems change goals and robust documentation plans to extend impact beyond the grant period.",
     "eligibility": [
-      "501(c)(3) or fiscal sponsorship required",
-      "Public engagement activities required",
-      "Diversity of artists encouraged"
+      "501(c)(3) organization or fiscally sponsored collective with established artistic leadership",
+      "Public engagement activities required, including community design sessions, workshops, or performances with free access",
+      "Commitment to compensating artists, culture workers, and community partners equitably",
+      "Diversity of artists and project team members encouraged, including representation across race, age, disability, and language"
     ]
   },
   {
@@ -108,12 +116,13 @@
     "title": "Inclusive Entrepreneurship Fund",
     "focus_areas": ["economic empowerment", "small business", "inclusion"],
     "geography": ["national"],
-    "funding_range": "USD 25,000 - 200,000",
-    "summary": "Supports programs helping underrepresented entrepreneurs access capital, mentorship, and resources.",
+    "funding_range": "$25,000 - $200,000",
+    "summary": "Supports accelerators, incubators, and community finance programs that expand capital access and wraparound services for founders from underrepresented backgrounds. Backs technical assistance, procurement readiness, credit-building tools, and investor matchmaking tailored for minority-owned and women-led enterprises. Encourages data transparency on capital deployment, inclusive governance, and pathways to high-growth markets.",
     "eligibility": [
-      "Community-based organizations or accelerators",
-      "Must serve minority-owned or women-led startups",
-      "Impact reporting required"
+      "Community-based organizations, accelerators, CDFIs, or chambers of commerce with proven track record serving underestimated founders",
+      "Must serve minority-owned or women-led startups with clear enrollment criteria and outreach strategy",
+      "Impact reporting required, including disaggregated data on capital deployed, revenue growth, and job creation",
+      "Commitment to anti-bias training for mentors, investors, and staff engaged in entrepreneur support services"
     ]
   },
   {
@@ -121,12 +130,13 @@
     "title": "Climate Tech Pilot Challenge",
     "focus_areas": ["climate innovation", "clean tech", "research"],
     "geography": ["national"],
-    "funding_range": "USD 50,000 - 300,000",
-    "summary": "Funds early-stage pilot projects using emerging tech to mitigate carbon emissions.",
+    "funding_range": "$50,000 - $300,000",
+    "summary": "Funds demonstration projects testing emerging climate technologies such as carbon capture, grid optimization, and nature-based solutions in real-world settings. Prioritizes pilots that quantify emissions reductions, community co-benefits, and commercialization potential. Encourages open science practices including data sharing, peer learning, and transparent measurement protocols.",
     "eligibility": [
-      "Research institutions or startups",
-      "Prototype or feasibility study required",
-      "Open data sharing policy"
+      "Research institutions, startups, or public-private consortia with technical expertise in climate mitigation technologies",
+      "Prototype, feasibility study, or field trial data demonstrating technical readiness level 5 or higher",
+      "Open data sharing policy detailing datasets to be released, privacy safeguards, and publication timelines",
+      "Letters of commitment from host sites, community partners, or utilities where pilots will be deployed"
     ]
   },
   {
@@ -134,12 +144,13 @@
     "title": "Accessible Education Infrastructure Fund",
     "focus_areas": ["education", "accessibility", "infrastructure"],
     "geography": ["national"],
-    "funding_range": "USD 20,000 - 120,000",
-    "summary": "Improves physical and digital accessibility in schools, libraries, and community centers.",
+    "funding_range": "$20,000 - $120,000",
+    "summary": "Improves physical and digital learning environments through ADA-compliant renovations, assistive technology upgrades, and equitable design services. Supports projects modernizing classrooms, libraries, and community centers so learners with disabilities experience seamless participation. Encourages cross-sector teams that integrate universal design principles, student feedback, and post-implementation training for staff.",
     "eligibility": [
-      "Public or nonprofit educational institutions",
-      "Accessibility audit documentation required",
-      "Implementation within 18 months"
+      "Public or nonprofit educational institutions, library systems, or community learning centers with accessible facilities plan",
+      "Recent accessibility audit documentation required, outlining priority upgrades and compliance gaps",
+      "Implementation within 18 months with confirmed contractors, procurement processes, and maintenance budgets",
+      "Commitment to training educators and staff on inclusive technology use, accommodations, and emergency procedures"
     ]
   },
   {
@@ -147,12 +158,13 @@
     "title": "Community College Innovation Grant",
     "focus_areas": ["higher education", "workforce development", "innovation"],
     "geography": ["Florida", "regional"],
-    "funding_range": "USD 50,000 - 250,000",
-    "summary": "Supports community colleges developing innovative programs that align workforce skills with emerging industries such as AI, sustainability, and healthcare.",
+    "funding_range": "$50,000 - $250,000",
+    "summary": "Supports community colleges piloting stackable credential pathways, applied research labs, and work-based learning aligned with AI, clean energy, advanced manufacturing, and healthcare sectors. Encourages integration of industry-grade equipment, modular curriculum, and wraparound student services. Funds collaborations that improve equitable access and lead to guaranteed interviews or apprenticeships with regional employers.",
     "eligibility": [
-      "Accredited community college or consortium",
-      "Industry or employer partnership required",
-      "Evaluation and student outcome tracking plan"
+      "Accredited community college or consortium of Florida institutions with established employer advisory boards",
+      "Industry or employer partnership required, including co-designed curriculum and commitments for student placement",
+      "Evaluation and student outcome tracking plan covering enrollment demographics, completion rates, earnings, and alumni progression",
+      "Evidence of student support services such as childcare, transportation assistance, or success coaching for adult learners"
     ]
   },
   {
@@ -160,12 +172,13 @@
     "title": "Public Health Preparedness Fund",
     "focus_areas": ["public health", "emergency response", "training"],
     "geography": ["national"],
-    "funding_range": "USD 40,000 - 150,000",
-    "summary": "Enhances capacity of local health departments to prepare for and respond to public health emergencies.",
+    "funding_range": "$40,000 - $150,000",
+    "summary": "Enhances local health department capacity for pandemic response, biothreat detection, and climate-related health emergencies. Funds interoperable data systems, multilingual risk communications, and workforce training on incident command and community outreach. Supports partnerships with faith leaders, mutual aid networks, and school districts to ensure equitable emergency response.",
     "eligibility": [
-      "Health departments or nonprofits",
-      "Emergency preparedness focus",
-      "Annual reporting requirement"
+      "Health departments, tribal health agencies, or nonprofits working closely with public health authorities",
+      "Emergency preparedness focus documented through existing response plans and hazard risk assessments",
+      "Annual reporting requirement outlining drills conducted, response metrics, and lessons learned",
+      "Inclusion of community engagement strategy prioritizing vulnerable populations, including seniors, immigrants, and individuals with disabilities"
     ]
   },
   {
@@ -173,12 +186,13 @@
     "title": "STEM Education Access Challenge",
     "focus_areas": ["STEM", "education equity", "teacher training"],
     "geography": ["urban", "rural"],
-    "funding_range": "USD 10,000 - 60,000",
-    "summary": "Expands equitable access to high-quality STEM education through teacher training and materials.",
+    "funding_range": "$10,000 - $60,000",
+    "summary": "Expands equitable STEM access by funding teacher professional development, culturally relevant curriculum, and makerspace resources in under-resourced schools. Elevates STEM role models through mentorship networks, classroom residencies, and virtual industry tours. Encourages projects that measure student confidence, math and science proficiency, and persistence in advanced coursework.",
     "eligibility": [
-      "K-12 institutions or education nonprofits",
-      "At least 50% underserved population",
-      "Teacher training plan required"
+      "K-12 institutions, education nonprofits, or districts serving at least 50% underserved student populations",
+      "Teacher training plan required with calendar of workshops, coaching sessions, and ongoing support",
+      "Commitment to equitable resource distribution including accommodations for multilingual learners and students with disabilities",
+      "Data collection plan assessing student outcomes, educator skill growth, and family engagement"
     ]
   },
   {
@@ -186,12 +200,13 @@
     "title": "Sustainable Transportation Pilot Grant",
     "focus_areas": ["transportation", "sustainability", "urban planning"],
     "geography": ["urban", "regional"],
-    "funding_range": "USD 100,000 - 400,000",
-    "summary": "Funds local governments testing innovative mobility solutions that reduce emissions.",
+    "funding_range": "$100,000 - $400,000",
+    "summary": "Funds pilots testing zero-emission transit, micromobility networks, smart traffic management, and safer active transportation corridors. Supports strategies co-designed with residents to reduce congestion, improve air quality, and increase multimodal access for low-income neighborhoods. Encourages alignment with Vision Zero policies, equitable fare structures, and transparent emissions tracking.",
     "eligibility": [
-      "Municipal or regional agencies",
-      "Environmental impact analysis required",
-      "Collaboration with transportation experts"
+      "Municipal or regional agencies, transit authorities, or metropolitan planning organizations with authority to deploy pilots",
+      "Environmental impact analysis required, including baseline emissions and projected reductions",
+      "Collaboration with transportation experts, community-based organizations, and accessibility advocates documented through MOUs",
+      "Plan for integrating pilot learnings into long-term infrastructure or policy changes with dedicated follow-on funding pathways"
     ]
   },
   {
@@ -199,12 +214,13 @@
     "title": "Veterans Career Advancement Fund",
     "focus_areas": ["veterans", "employment", "education"],
     "geography": ["national"],
-    "funding_range": "USD 20,000 - 100,000",
-    "summary": "Supports veteran-serving organizations providing job training and career services.",
+    "funding_range": "$20,000 - $100,000",
+    "summary": "Supports veteran-serving organizations offering skills translation, credential attainment, and career navigation tailored to military experiences. Funds wraparound supports such as mental health services, childcare, and housing stabilization to improve employment persistence. Encourages employer partnerships that create pathways into high-demand civilian careers and track long-term retention.",
     "eligibility": [
-      "Nonprofit serving U.S. veterans",
-      "Program must include career placement component",
-      "Annual reporting required"
+      "Nonprofit serving U.S. veterans or military-connected families with documented governance and veteran leadership representation",
+      "Program must include career placement component with employer commitments and job coaching",
+      "Annual reporting required on participant demographics, credential attainment, employment outcomes, and wage progression",
+      "Evidence of trauma-informed services and referral networks addressing behavioral health, housing, and benefits navigation"
     ]
   },
   {
@@ -212,12 +228,13 @@
     "title": "Urban Greening Partnership Grant",
     "focus_areas": ["urban planning", "environment", "community engagement"],
     "geography": ["urban"],
-    "funding_range": "USD 25,000 - 90,000",
-    "summary": "Funds local projects creating urban green spaces, tree planting, and community gardens.",
+    "funding_range": "$25,000 - $90,000",
+    "summary": "Invests in urban greening projects that expand tree canopy, restore vacant lots, and create climate-resilient park spaces co-designed with residents. Supports community stewardship programs, youth workforce crews, and environmental education campaigns. Prioritizes neighborhoods facing heat islands, flooding, and limited access to safe outdoor recreation.",
     "eligibility": [
-      "Municipal or community organization",
-      "Public access space required",
-      "Maintenance plan included"
+      "Municipal agency, community organization, or land trust with authority to implement improvements on public access land",
+      "Public access space required with ADA-compliant design and maintenance plans",
+      "Maintenance plan included covering staffing, irrigation, and long-term stewardship commitments",
+      "Community engagement strategy demonstrating resident leadership roles and culturally responsive outreach"
     ]
   },
   {
@@ -225,12 +242,13 @@
     "title": "Inclusive Arts Fellowship",
     "focus_areas": ["arts", "accessibility", "disability inclusion"],
     "geography": ["national"],
-    "funding_range": "USD 10,000 - 40,000",
-    "summary": "Funds artists with disabilities and organizations promoting inclusive arts practices.",
+    "funding_range": "$10,000 - $40,000",
+    "summary": "Provides stipends, production support, and professional development for artists with disabilities creating accessible performances, exhibitions, and digital media. Invests in organizations embedding disability justice principles into curatorial practices, employment, and audience engagement. Encourages the development of new assistive technologies, tactile experiences, and sensory-friendly programming.",
     "eligibility": [
-      "Individuals or arts organizations",
-      "Accessibility plan required",
-      "Public engagement component"
+      "Individuals or arts organizations led by or centering artists with disabilities, including proof of accessibility accommodations",
+      "Accessibility plan required detailing tech tools, ASL interpretation, audio description, captioning, and sensory supports",
+      "Public engagement component ensuring community access through workshops, talkbacks, or open studio events",
+      "Documentation strategy for sharing inclusive practices with peer institutions and networks"
     ]
   },
   {
@@ -238,12 +256,13 @@
     "title": "Water Innovation Research Fund",
     "focus_areas": ["water management", "sustainability", "research"],
     "geography": ["national"],
-    "funding_range": "USD 75,000 - 300,000",
-    "summary": "Supports applied research in sustainable water technologies and community-based conservation.",
+    "funding_range": "$75,000 - $300,000",
+    "summary": "Supports applied research and demonstration projects advancing water recycling, leak detection, equitable rate design, and watershed restoration. Encourages collaboration with frontline communities to co-develop resilient infrastructure responding to droughts, floods, and contamination. Funds data-driven pilots that generate open-source tools and policy recommendations for utilities and regulators.",
     "eligibility": [
-      "Universities or research labs",
-      "Pilot or demonstration required",
-      "Partnership with local utility preferred"
+      "Universities, research labs, or nonprofit institutes with expertise in hydrology, engineering, or environmental science",
+      "Pilot or demonstration required with field sites, instrumentation plans, and community engagement protocols",
+      "Partnership with local utility or water authority preferred, including cost-sharing commitments",
+      "Deliverables include peer-reviewed publications, data repositories, and policy briefs accessible to stakeholders"
     ]
   },
   {
@@ -251,12 +270,13 @@
     "title": "Rural Broadband Expansion Grant",
     "focus_areas": ["infrastructure", "digital access", "rural development"],
     "geography": ["rural"],
-    "funding_range": "USD 100,000 - 500,000",
-    "summary": "Expands broadband access to rural communities lacking reliable internet infrastructure.",
+    "funding_range": "$100,000 - $500,000",
+    "summary": "Expands high-speed broadband through fiber, fixed wireless, or open access networks that reach unserved farms, tribal lands, and remote main streets. Supports infrastructure planning, middle-mile construction, and affordability programs that ensure long-term adoption. Encourages projects that coordinate with federal funding, leverage crowd-sourced coverage data, and build local workforce capacity.",
     "eligibility": [
-      "Telecom providers, co-ops, or local governments",
-      "Feasibility study required",
-      "Completion within 3 years"
+      "Telecom providers, cooperatives, tribal entities, or local governments authorized to deploy broadband infrastructure",
+      "Feasibility study required including engineering designs, take-rate projections, and environmental review compliance",
+      "Completion within 3 years with phased construction schedule and risk mitigation plan",
+      "Affordability strategy demonstrating low-cost service tiers, digital literacy partnerships, and customer support for residents"
     ]
   },
   {
@@ -264,12 +284,13 @@
     "title": "Creative Youth Empowerment Fund",
     "focus_areas": ["youth", "arts", "community development"],
     "geography": ["urban", "suburban"],
-    "funding_range": "USD 5,000 - 30,000",
-    "summary": "Empowers young people to lead creative projects that uplift their communities.",
+    "funding_range": "$5,000 - $30,000",
+    "summary": "Supports youth councils, student clubs, and school-based teams launching creative placemaking, media production, and social impact campaigns. Provides resources for young leaders to manage grants, collaborate with municipal agencies, and host public events showcasing community narratives. Emphasizes youth governance models that foster civic leadership and long-term cultural stewardship.",
     "eligibility": [
-      "Youth-led organizations or schools",
-      "Ages 15-24 must lead the project",
-      "Adult mentorship required"
+      "Youth-led organizations or schools with documented youth governance structures allocating decision-making power",
+      "Ages 15-24 must lead the project, supported by stipends or leadership development resources",
+      "Adult mentorship required with clear roles for advisors, safety protocols, and safeguarding policies",
+      "Budget must include youth compensation, accessibility considerations, and community outreach strategy"
     ]
   },
   {
@@ -277,12 +298,13 @@
     "title": "AI for Social Good Grant",
     "focus_areas": ["artificial intelligence", "social impact", "ethics"],
     "geography": ["national"],
-    "funding_range": "USD 50,000 - 200,000",
-    "summary": "Funds projects using AI ethically to address social, environmental, or humanitarian challenges.",
+    "funding_range": "$50,000 - $200,000",
+    "summary": "Funds interdisciplinary teams deploying transparent, accountable AI systems that advance social, environmental, or humanitarian outcomes. Prioritizes applications that mitigate bias, protect privacy, and include impacted communities in governance. Supports prototyping, field testing, and open-source tools that translate ethical AI principles into measurable benefits.",
     "eligibility": [
-      "Academic, nonprofit, or startup organization",
-      "Clear social impact framework",
-      "Open-source component encouraged"
+      "Academic, nonprofit, or startup organization with cross-functional team including domain experts and ethicists",
+      "Clear social impact framework with theory of change, risk mitigation plan, and community validation",
+      "Open-source component encouraged, including documentation, model cards, and reproducible datasets",
+      "Commitment to independent auditing, fairness testing, and public reporting on algorithmic outcomes"
     ]
   },
   {
@@ -290,12 +312,13 @@
     "title": "Neighborhood Safety and Design Grant",
     "focus_areas": ["public safety", "urban design", "community engagement"],
     "geography": ["urban"],
-    "funding_range": "USD 15,000 - 75,000",
-    "summary": "Improves public safety and walkability through community-driven design improvements.",
+    "funding_range": "$15,000 - $75,000",
+    "summary": "Improves safety, walkability, and sense of belonging through resident-led planning that redesigns streetscapes, lighting, alleys, and gathering spaces. Supports tactical urbanism pilots, traffic calming installations, and placemaking that reduces violence without relying on punitive approaches. Encourages data-informed collaboration between neighborhood groups, planners, and youth leaders.",
     "eligibility": [
-      "Neighborhood associations or nonprofits",
-      "Resident participation required",
-      "Local government support letter"
+      "Neighborhood associations, community development corporations, or nonprofits with fiduciary capacity",
+      "Resident participation required through design workshops, surveys, and steering committees reflecting community demographics",
+      "Local government support letter confirming alignment with zoning, permitting, and maintenance requirements",
+      "Safety plan integrating public health, restorative justice, or violence interruption partners"
     ]
   },
   {
@@ -303,12 +326,13 @@
     "title": "Senior Wellness Initiative Fund",
     "focus_areas": ["health", "aging", "community services"],
     "geography": ["national"],
-    "funding_range": "USD 10,000 - 60,000",
-    "summary": "Supports programs improving quality of life, health, and social connection for older adults.",
+    "funding_range": "$10,000 - $60,000",
+    "summary": "Supports aging service providers offering culturally responsive wellness classes, chronic disease prevention, and social connection programs for adults 60+. Funds transportation, telehealth coaching, and caregiver respite that reduce isolation and hospital readmissions. Encourages adoption of evidence-based models and technology tools that empower seniors to age in place safely.",
     "eligibility": [
-      "Nonprofits or community centers",
-      "Serves adults 60+",
-      "Evidence-based outcomes encouraged"
+      "Nonprofits, community centers, or faith-based organizations serving adults 60+ with inclusive programming",
+      "Program design must incorporate physical, mental, and social wellness components grounded in evidence-based practices",
+      "Data collection plan tracking participation, health indicators, and social connectedness outcomes",
+      "Collaboration with healthcare providers, Area Agencies on Aging, or senior housing operators preferred"
     ]
   },
   {
@@ -316,12 +340,13 @@
     "title": "Environmental Justice Partnership Grant",
     "focus_areas": ["environmental justice", "advocacy", "policy"],
     "geography": ["national"],
-    "funding_range": "USD 50,000 - 250,000",
-    "summary": "Funds grassroots coalitions addressing environmental injustices affecting marginalized populations.",
+    "funding_range": "$50,000 - $250,000",
+    "summary": "Funds frontline coalitions advancing community-led research, legal strategies, and policy campaigns that eliminate disproportionate pollution burdens. Supports organizing on clean air and water protections, industrial accountability, and equitable land use planning. Encourages power-building, multilingual communications, and leadership development for residents most impacted by environmental harms.",
     "eligibility": [
-      "Nonprofits or advocacy groups",
-      "Community leadership representation required",
-      "Policy or systems change focus"
+      "Nonprofits, advocacy groups, or tribal governments with mission centered on environmental justice and community self-determination",
+      "Community leadership representation required in governance, staffing, and decision-making roles",
+      "Policy or systems change focus with articulated strategy, timeline, and targeted decision-makers",
+      "Commitment to participatory budgeting, transparent fund management, and safety protocols for organizers"
     ]
   }
 ]

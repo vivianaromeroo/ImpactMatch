@@ -49,7 +49,16 @@ const GrantCard = ({
         </ul>
       </section>
 
-      <footer>
+      <footer className="flex flex-wrap gap-3">
+        <button
+          type="button"
+          className="inline-flex items-center gap-2 rounded-lg border border-primary-400 px-4 py-2 text-sm font-medium text-primary-200 transition hover:bg-primary-500/10"
+          onClick={() => {
+            /* Placeholder: navigate to grant detail page */
+          }}
+        >
+          Apply
+        </button>
         <button
           type="button"
           className="inline-flex items-center gap-2 rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-400 disabled:cursor-not-allowed disabled:bg-slate-700"
