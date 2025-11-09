@@ -139,7 +139,7 @@ Vite serves the app at `http://localhost:5173` and proxies `/api/*` to `http://1
 1. Push the repo to GitHub (or another git host).
 2. In Cloudflare Pages, create a new project from the repo.
 3. Build configuration:
-   - Build command: `npm run build`
+   - Build command: `npm run build:cloudflare`
    - Build directory: `frontend/dist`
    - Install command: `npm install`
    - Node version: `18`
