@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import impactLogo from "./assets/Logo.png";
 import GrantCard from "./components/GrantCard";
-import { matchGrants, generateProposal } from "./api/client";
+import { matchGrants, generateProposal, uploadTemplate } from "./api/client";
 import type { GrantMatch, MatchResponse, ProposalResponse } from "./types";
 
 type SortOption =
@@ -23,6 +23,12 @@ function App() {
   const [selectedGrantId, setSelectedGrantId] = useState<string | null>(null);
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
   const [sortOption, setSortOption] = useState<SortOption>("score-desc");
+  const [customTemplate, setCustomTemplate] = useState<string>("");
+  const [templateStatus, setTemplateStatus] = useState<
+    "idle" | "uploading" | "success" | "error"
+  >("idle");
+  const [templateError, setTemplateError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleMatch = async () => {
     try {
@@ -52,6 +58,7 @@ function App() {
       const payload = {
         grantId: grant.id,
         projectDescription,
+        customTemplate: customTemplate || undefined,
       };
       const response: ProposalResponse = await generateProposal(payload);
       setProposalDraft(response.proposal);
@@ -88,6 +95,39 @@ function App() {
       console.error(copyError);
       setCopyStatus("error");
     }
+  };
+
+  const handleTemplateUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleTemplateFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) {
+      return;
+    }
+
+    setTemplateStatus("uploading");
+    setTemplateError(null);
+
+    try {
+      const response = await uploadTemplate(file);
+      setCustomTemplate(response.template_text);
+      setTemplateStatus("success");
+    } catch (uploadErr) {
+      console.error(uploadErr);
+      setTemplateStatus("error");
+      setTemplateError(
+        "We couldn't process that file. Upload a .docx or .pdf template.",
+      );
+    }
+  };
+
+  const handleClearTemplate = () => {
+    setCustomTemplate("");
+    setTemplateStatus("idle");
+    setTemplateError(null);
   };
 
   const getFundingMaximum = (grant: GrantMatch): number => {
@@ -177,17 +217,53 @@ function App() {
             className="mt-3 min-h-[180px] rounded-xl border border-slate-700 bg-slate-950/60 p-4 text-sm text-slate-100 outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-500/40"
             placeholder="Describe your project in detail — what challenge or need are you addressing, who is most affected, and how your proposed solution will create measurable impact or change."
           />
-          <button
-            type="button"
-            onClick={handleMatch}
-            disabled={isMatching}
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-400 disabled:cursor-not-allowed disabled:bg-slate-700"
-          >
-            {isMatching ? "Finding matches..." : "Find my grants"}
-          </button>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={handleMatch}
+              disabled={isMatching}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-400 disabled:cursor-not-allowed disabled:bg-slate-700"
+            >
+              {isMatching ? "Finding matches..." : "Find my grants"}
+            </button>
+            <button
+              type="button"
+              onClick={handleTemplateUploadClick}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-primary-400 px-5 py-3 text-sm font-semibold text-primary-200 transition hover:bg-primary-500/10 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-500"
+            >
+              {templateStatus === "uploading" ? "Uploading..." : "Upload template"}
+            </button>
+          </div>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".docx,.pdf"
+            onChange={handleTemplateFileChange}
+            className="hidden"
+          />
           {error && (
             <p className="mt-3 rounded-lg border border-rose-900 bg-rose-500/10 p-3 text-sm text-rose-200">
               {error}
+            </p>
+          )}
+          {templateStatus === "success" && (
+            <div className="mt-3 flex items-center justify-between rounded-lg border border-primary-500/20 bg-primary-500/10 px-3 py-2 text-xs text-primary-100">
+              <span>Custom template uploaded and will be used for new drafts.</span>
+              <button
+                type="button"
+                onClick={handleClearTemplate}
+                className="text-primary-200 underline transition hover:text-primary-100"
+              >
+                Clear
+              </button>
+            </div>
+          )}
+          {templateStatus === "error" && templateError && (
+            <p className="mt-3 text-xs text-rose-300">{templateError}</p>
+          )}
+          {customTemplate && templateStatus !== "success" && (
+            <p className="mt-3 text-xs text-slate-400">
+              A custom template is active and will shape generated proposals.
             </p>
           )}
           {keywords.length > 0 && (

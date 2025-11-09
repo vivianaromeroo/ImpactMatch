@@ -9,8 +9,12 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
+from docx import Document  # type: ignore
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
+
+import pdfplumber  # type: ignore
 
 try:
     import google.generativeai as genai
@@ -20,6 +24,8 @@ except ImportError:  # pragma: no cover - library optional in mock environments
 
 BASE_DIR = Path(__file__).resolve().parent
 GRANTS_PATH = BASE_DIR / "grants.json"
+UPLOADS_DIR = BASE_DIR / "uploads"
+UPLOADS_DIR.mkdir(exist_ok=True)
 DEFAULT_MODEL = os.getenv("GEMINI_MODEL")
 EMBEDDING_MODEL = os.getenv("GEMINI_EMBEDDING_MODEL", "models/text-embedding-004")
 SEMANTIC_WEIGHT = 0.6
@@ -28,6 +34,7 @@ COSINE_MIN = float(os.getenv("GEMINI_COSINE_MIN", "0.3"))
 COSINE_MAX = float(os.getenv("GEMINI_COSINE_MAX", "0.7"))
 FOCUS_MATCH_BONUS = float(os.getenv("FOCUS_MATCH_BONUS", "1.5"))
 MIN_MATCH_SCORE = float(os.getenv("MIN_MATCH_SCORE", "0.25"))
+ALLOWED_TEMPLATE_EXTENSIONS = {".docx", ".pdf"}
 
 _embedding_cache: Dict[str, List[float]] = {}
 _genai_configured = False
@@ -73,6 +80,7 @@ def create_app() -> Flask:
         payload = request.get_json(force=True) or {}
         project_description: str = payload.get("projectDescription", "")
         grant_id: str = payload.get("grantId", "")
+        custom_template: Optional[str] = payload.get("customTemplate")
 
         if not project_description.strip() or not grant_id.strip():
             return jsonify({"error": "grantId and projectDescription are required"}), 400
@@ -81,8 +89,45 @@ def create_app() -> Flask:
         if matched_grant is None:
             return jsonify({"error": f"Grant {grant_id} not found"}), 404
 
-        proposal = generate_proposal(project_description, matched_grant)
+        proposal = generate_proposal(project_description, matched_grant, custom_template)
         return jsonify({"grantId": grant_id, "proposal": proposal})
+
+    @app.route("/upload_template", methods=["POST"])
+    def upload_template_route():
+        """Accept a template document upload, extract text, and return it as JSON."""
+        if "file" not in request.files:
+            return jsonify({"error": "Missing file upload"}), 400
+
+        file = request.files["file"]
+        if file.filename == "":
+            return jsonify({"error": "No file selected"}), 400
+
+        extension = Path(file.filename).suffix.lower()
+        if extension not in ALLOWED_TEMPLATE_EXTENSIONS:
+            return jsonify({"error": "Unsupported file type. Upload a .docx or .pdf file."}), 400
+
+        filename = secure_filename(file.filename)
+        destination = UPLOADS_DIR / filename
+        file.save(destination)
+
+        try:
+            if extension == ".docx":
+                template_text = extract_text_from_docx(destination)
+            else:
+                template_text = extract_text_from_pdf(destination)
+        except Exception as exc:  # pragma: no cover - logging side effect only
+            get_app_logger().warning("Template extraction failed: %s", exc)
+            return jsonify({"error": "Unable to extract template text"}), 500
+        finally:
+            try:
+                destination.unlink()
+            except OSError:
+                get_app_logger().warning("Failed to remove uploaded file: %s", destination)
+
+        if not template_text.strip():
+            return jsonify({"error": "No readable text found in the uploaded template"}), 422
+
+        return jsonify({"template_text": template_text.strip()})
 
     return app
 
@@ -227,23 +272,13 @@ def find_top_grants(
     return df.to_dict(orient="records")
 
 
-def generate_proposal(project_description: str, grant: Dict[str, Any]) -> str:
-    """Generate a short proposal draft referencing the selected grant."""
-    prompt = """
-        You are a professional grant writer creating a concise proposal draft for a potential funder.
-
-        Your goal is to align the applicant’s project with the selected grant’s goals, based solely on the provided information.
-        Use the details from the grant JSON and project description to complete the following template faithfully.
-
-        Guidelines:
-        - Keep the tone professional, clear, and persuasive.
-        - Use factual language only. Do not invent or assume data (dates, names, budgets, etc.). Write “TBD” where unknown.
-        - Stay under 500 words total if possible.
-        - Do NOT include section labels like [LABEL] or any markdown formatting.
-        - Return only the proposal text — no commentary, notes, or explanations.
-
-        Follow this exact structure:
-
+def generate_proposal(
+    project_description: str,
+    grant: Dict[str, Any],
+    custom_template: Optional[str] = None,
+) -> str:
+    """Generate a proposal draft referencing the selected grant and optional template."""
+    template_body = custom_template or """
         1. A short, impactful headline that summarizes the project’s alignment with the grant’s mission.
 
         2. Objective:
@@ -262,6 +297,23 @@ def generate_proposal(project_description: str, grant: Dict[str, Any]) -> str:
         Email – TBD
         Phone – TBD
         Organization – Short description and website link (if available)
+    """
+
+    prompt = """
+        You are a professional grant writer creating a concise proposal draft for a potential funder.
+
+        Your goal is to align the applicant’s project with the selected grant’s goals, based solely on the provided information.
+        Use the details from the grant JSON and project description to complete the provided template faithfully.
+
+        Guidelines:
+        - Keep the tone professional, clear, and persuasive.
+        - Use factual language only. Do not invent or assume data (dates, names, budgets, etc.). Write “TBD” where unknown.
+        - Stay under 500 words total if possible.
+        - Do NOT include section labels like [LABEL] or any markdown formatting unless the template explicitly requires it.
+        - Return only the proposal text — no commentary, notes, or explanations.
+
+        Template to follow:
+        {template}
 
         Grant JSON:
         {grant}
@@ -269,9 +321,10 @@ def generate_proposal(project_description: str, grant: Dict[str, Any]) -> str:
         Project Description:
         {description}
     """.format(
-            grant=json.dumps(grant, indent=2),
-            description=project_description.strip()
-        )
+        template=template_body.strip(),
+        grant=json.dumps(grant, indent=2),
+        description=project_description.strip(),
+    )
 
     if genai and os.getenv("GEMINI_API_KEY"):
         try:
@@ -283,20 +336,14 @@ def generate_proposal(project_description: str, grant: Dict[str, Any]) -> str:
         except Exception as exc:  # pragma: no cover - logging side effect only
             get_app_logger().warning("Gemini proposal generation failed: %s", exc)
 
+    fallback_header = f"{grant['title']} Alignment Summary"
+    focus_summary = ", ".join(grant.get("focus_areas", []))
     return (
-        "DUMMY DATA\n"
-        "The Title: The Most Important Phrase\n\n"
-        f"{grant['title']} Partnership Momentum\n\n\n"
-        "Objective\n\n\n"
-        f"{project_description.strip()} Our initiative aligns with the funder's focus by advancing {', '.join(grant.get('focus_areas', []))} priorities.\n\n\n"
-        "Scope\n\n\n"
-        f"We will collaborate with stakeholders to execute programming that reflects the grant's goals, centering the community described in the project narrative and the outcomes highlighted in the grant summary.\n\n\n"
-        "Deliverables Timeline Investment\n\n\n"
-        "Deliverable #1 - Detailed kickoff and stakeholder alignment | Delivery Date #1: TBD | Budget Item #1: TBD\n"
-        "Deliverable #2 - Core program activities and community reporting | Delivery Date #2: TBD | Budget Item #2: TBD\n"
-        "Deliverable #3 - Final impact summary with lessons learned | Delivery Date #3: TBD | Budget Item #3: TBD\n\n\n"
-        "Contact Details\n\n\n"
-        "Representative Name: TBD | Contact: TBD | Organization overview and website: TBD"
+        f"{fallback_header}\n\n"
+        f"Project Synopsis:\n{project_description.strip()}\n\n"
+        f"Grant Focus Areas: {focus_summary or 'TBD'}\n\n"
+        "Template Reference:\n"
+        f"{template_body.strip()}"
     )
 
 
@@ -311,6 +358,28 @@ def get_gemini_model():
 
 def get_app_logger():
     return app.logger
+
+
+def allowed_template_file(extension: str) -> bool:
+    """Check whether the uploaded file extension is supported."""
+    return extension.lower() in ALLOWED_TEMPLATE_EXTENSIONS
+
+
+def extract_text_from_docx(path: Path) -> str:
+    """Extract plain text from a DOCX file."""
+    document = Document(path)
+    return "\n".join(paragraph.text for paragraph in document.paragraphs if paragraph.text)
+
+
+def extract_text_from_pdf(path: Path) -> str:
+    """Extract plain text from a PDF file using pdfplumber."""
+    text_segments: List[str] = []
+    with pdfplumber.open(path) as pdf:
+        for page in pdf.pages:
+            page_text = page.extract_text() or ""
+            if page_text:
+                text_segments.append(page_text.strip())
+    return "\n".join(segment for segment in text_segments if segment)
 
 
 def embed_text(text: str) -> Optional[List[float]]:

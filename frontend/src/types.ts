@@ -19,10 +19,15 @@ export interface MatchResponse {
 export interface ProposalRequest {
   projectDescription: string;
   grantId: string;
+  customTemplate?: string;
 }
 
 export interface ProposalResponse {
   grantId: string;
   proposal: string;
+}
+
+export interface UploadTemplateResponse {
+  template_text: string;
 }
 

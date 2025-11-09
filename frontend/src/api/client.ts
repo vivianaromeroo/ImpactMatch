@@ -4,6 +4,7 @@ import type {
   MatchResponse,
   ProposalRequest,
   ProposalResponse,
+  UploadTemplateResponse,
 } from "../types";
 
 const api = axios.create({
@@ -22,6 +23,15 @@ export const generateProposal = async (
   payload: ProposalRequest,
 ): Promise<ProposalResponse> => {
   const { data } = await api.post<ProposalResponse>("/proposal", payload);
+  return data;
+};
+
+export const uploadTemplate = async (file: File): Promise<UploadTemplateResponse> => {
+  const formData = new FormData();
+  formData.append("file", file);
+  const { data } = await api.post<UploadTemplateResponse>("/upload_template", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return data;
 };
 
