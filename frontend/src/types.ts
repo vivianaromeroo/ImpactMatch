@@ -20,6 +20,7 @@ export interface ProposalRequest {
   projectDescription: string;
   grantId: string;
   customTemplate?: string;
+  regenerate?: boolean;
 }
 
 export interface ProposalResponse {

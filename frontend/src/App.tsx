@@ -50,7 +50,10 @@ function App() {
     }
   };
 
-  const handleGenerateProposal = async (grant: GrantMatch) => {
+  const handleGenerateProposal = async (
+    grant: GrantMatch,
+    options?: { regenerate?: boolean },
+  ) => {
     try {
       setSelectedGrantId(grant.id);
       setIsGeneratingProposal(true);
@@ -59,6 +62,7 @@ function App() {
         grantId: grant.id,
         projectDescription,
         customTemplate: customTemplate || undefined,
+        regenerate: options?.regenerate ?? undefined,
       };
       const response: ProposalResponse = await generateProposal(payload);
       setProposalDraft(response.proposal);
@@ -285,18 +289,64 @@ function App() {
             <h2 className="text-lg font-semibold text-white">
               Grant Proposal Draft
             </h2>
-            <button
-              type="button"
-              onClick={handleCopyProposal}
-              disabled={!proposalDraft.trim()}
-              className="inline-flex items-center gap-2 rounded-lg border border-slate-600 px-3 py-1.5 text-xs font-medium text-slate-100 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-500"
-            >
-              {copyStatus === "copied"
-                ? "Copied!"
-                : copyStatus === "error"
-                ? "Copy Failed"
-                : "Copy"}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleCopyProposal}
+                disabled={!proposalDraft.trim()}
+                aria-label={
+                  copyStatus === "copied"
+                    ? "Proposal copied"
+                    : copyStatus === "error"
+                    ? "Copy failed"
+                    : "Copy proposal"
+                }
+                title={
+                  copyStatus === "copied"
+                    ? "Copied"
+                    : copyStatus === "error"
+                    ? "Copy failed"
+                    : "Copy proposal"
+                }
+                className="inline-flex items-center justify-center rounded-lg border border-slate-600 px-3 py-1.5 text-base text-slate-100 transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-500"
+              >
+                <span aria-hidden="true">
+                  {copyStatus === "copied"
+                    ? "✔︎"
+                    : copyStatus === "error"
+                    ? "⚠︎"
+                    : "⧉"}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!selectedGrantId) {
+                    return;
+                  }
+                  const grant = matches.find((item) => item.id === selectedGrantId);
+                  if (grant) {
+                    handleGenerateProposal(grant, { regenerate: true });
+                  }
+                }}
+                disabled={!selectedGrantId || isGeneratingProposal}
+                aria-label={
+                  isGeneratingProposal && selectedGrantId
+                    ? "Refreshing proposal"
+                    : "Refresh proposal"
+                }
+                title={
+                  isGeneratingProposal && selectedGrantId
+                    ? "Refreshing..."
+                    : "Refresh proposal"
+                }
+                className="inline-flex items-center justify-center rounded-lg border border-primary-400 px-3 py-1.5 text-base text-primary-200 transition hover:bg-primary-500/10 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-500"
+              >
+                <span aria-hidden="true">
+                  {isGeneratingProposal && selectedGrantId ? "…" : "↻"}
+                </span>
+              </button>
+            </div>
           </div>
           <p className="text-sm text-slate-300">
             Select a grant match to generate a tailored summary you can use in
