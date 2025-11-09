@@ -174,27 +174,28 @@ function App() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-7xl flex-col gap-8 px-4 py-10">
-      <nav className="flex items-center justify-between rounded-2xl px-6 py-4 shadow-lg">
-        <img
-          src={impactLogo}
-          alt="ImpactMatch logo"
-          className="h-19 w-auto"
-        />
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            className="rounded-full border border-primary-500 px-4 py-2 text-sm font-semibold text-primary-100 transition hover:bg-primary-500/10"
-          >
-            Applicants
-          </button>
-          <button
-            type="button"
-            className="rounded-full bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-400"
-          >
-            Sponsors
-          </button>
+      <nav className="flex items-center justify-between px-8 py-4">
+        <img src={impactLogo} alt="ImpactMatch logo" className="h-15" />
+         <div className="space-x-6 text-slate-300">
+           <a
+             href="https://www.linkedin.com/in/viviana-romero-software/"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="hover:text-white"
+           >
+             Contact Us
+           </a>
+           <a
+             href="https://devpost.com/software/impactmatch"
+             target="_blank"
+             rel="noopener noreferrer"
+             className="hover:text-white"
+           >
+             About
+           </a>
         </div>
       </nav>
+
 
       <header className="space-y-4 text-center">
         <h1 className="text-4xl font-bold text-white">
